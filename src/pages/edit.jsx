@@ -13,7 +13,7 @@ class edit extends Component {
 
 
   state = {
-    title: '',
+    name: '',
     content: '',
   }
 
@@ -23,11 +23,11 @@ class edit extends Component {
   }
 
   handleSubmit = async e => {
-    console.log("this.state.title = ", this.state.title);
+    console.log("this.state.name = ", this.state.name);
     e.preventDefault()
     const body = {
       id: this.state.id,
-      title: this.state.title,
+      name: this.state.name,
       filter: this.state.filter
     }
 
@@ -75,7 +75,7 @@ class edit extends Component {
       handleChange,
       handleSubmit
     } = this
-    const { title, filter } = this.state
+    const { name, filter } = this.state
 
 
 
@@ -83,8 +83,8 @@ class edit extends Component {
       <div className="App">
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <label htmlFor="title">Title</label>
-            <input id="title" type="text" name="title" value={title} onChange={handleChange} />
+            <label htmlFor="name">name</label>
+            <input id="name" type="text" name="name" value={name} onChange={handleChange} />
           </div>
 
           <div className="row">

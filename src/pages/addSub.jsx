@@ -11,7 +11,7 @@ let path = '/collection'
 
 class addSub extends Component {
   state = {
-    title: '',
+    name: '',
     filter: '',
     upperId: ''
   }
@@ -23,12 +23,14 @@ class addSub extends Component {
 
   handleSubmit = async e => {
     e.preventDefault()
+    var createDate = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
 
     const body = {
       upperId: this.state.id,
       id: Date.now().toString(),
-      title: this.state.title,
-      filter: this.state.filter
+      name: this.state.name,
+      filter: this.state.filter,
+      createDate: createDate
     }
 
     try {
@@ -76,7 +78,7 @@ class addSub extends Component {
       handleChange,
       handleSubmit,
     } = this
-    const { title, filter } = this.state
+    const { name, filter } = this.state
 
 
 
@@ -84,8 +86,8 @@ class addSub extends Component {
       <div className="App">
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <label htmlFor="title">Title</label>
-            <input id="title" type="text" name="title" value={title} onChange={handleChange} />
+            <label htmlFor="name">name</label>
+            <input id="name" type="text" name="name" value={name} onChange={handleChange} />
           </div>
 
           <div className="row">

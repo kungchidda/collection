@@ -11,7 +11,7 @@ let path = '/collection'
 
 class main extends Component {
  state = {
-    title: '',
+    name: '',
     filter: '',
     list: []
   }
@@ -78,7 +78,7 @@ class main extends Component {
         <ul>
           {list.map(item => (
             <li key={item.id}>
-              {item.title}
+              {item.name}
               <button><Link to={`/addSub/${item.id}`}>Add</Link> </button>
               <button><Link to={`/edit/${item.id}`}>Edit</Link> </button>
               <button onClick={() => handleDelete(item.id)}>Delete</button>

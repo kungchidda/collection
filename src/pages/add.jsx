@@ -11,8 +11,9 @@ let path = '/collection'
 
 class add extends Component {
   state = {
-    title: '',
-    filter: ''
+    name: '',
+    filter: '',
+    createDate:''
   }
 
   handleChange = e => {
@@ -22,11 +23,15 @@ class add extends Component {
 
   handleSubmit = async e => {
     e.preventDefault()
+    var createDate = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+
 
     const body = {
       id: Date.now().toString(),
-      title: this.state.title,
-      filter: this.state.filter
+      upperId: '0',
+      name: this.state.name,
+      filter: this.state.filter,
+      createDate: createDate
     }
     try {
       const res = await API.post(apiName, path, { body })
@@ -45,7 +50,7 @@ class add extends Component {
       handleChange,
       handleSubmit
     } = this
-    const { title, filter } = this.state
+    const { name, filter } = this.state
 
 
 
@@ -53,8 +58,8 @@ class add extends Component {
       <div className="App">
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <label htmlFor="title">Title</label>
-            <input id="title" type="text" name="title" value={title} onChange={handleChange} />
+            <label htmlFor="name">name</label>
+            <input id="name" type="text" name="name" value={name} onChange={handleChange} />
           </div>
 
           <div className="row">
