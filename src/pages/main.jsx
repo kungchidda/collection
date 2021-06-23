@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import Amplify, { API } from 'aws-amplify'
 import awsConfig from '../aws-exports'
 import '../App.css';
-// import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-// import { Button } from '@material-ui/core';
 
 Amplify.configure(awsConfig)
 
@@ -12,13 +10,10 @@ let apiName = 'collectionAPI'
 let path = '/collection'
 
 class main extends Component {
-  state = {
-    id: '',
-    upperId: '',
+ state = {
     title: '',
-    content: '',
-    list: [],
-    filter: [{ label: '', value: '' }]
+    filter: '',
+    list: []
   }
 
   handleDelete = async id => {
@@ -66,17 +61,9 @@ class main extends Component {
 
   render() {
     const {
-      handleChange,
-      handleSubmit,
-      handleSelectItem,
-      handleBackList,
       handleDelete,
-      handleFilterLabelChange,
-      handleFilterValueChange,
-      handleAddFilter,
-      handleRemoveFilter
     } = this
-    const { title, content, list, showDetail, selectedItem, filter } = this.state
+    const {list} = this.state
 
 
 
@@ -88,7 +75,7 @@ class main extends Component {
         <button><Link to={'/add'}>Add Collection</Link></button>
         <hr />
         <h3>Menu Collections</h3>
-        <ul style={{ display: showDetail ? 'none' : 'block' }}>
+        <ul>
           {list.map(item => (
             <li key={item.id}>
               {item.title}
@@ -103,5 +90,4 @@ class main extends Component {
   }
 }
 
-// export default withAuthenticator(main, true)
 export default main
