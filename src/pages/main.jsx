@@ -15,7 +15,7 @@ class main extends Component {
     filter: '',
     list: []
   }
-
+  //항목 삭제
   handleDelete = async id => {
     try {
       console.log("start handleDelete");
@@ -45,7 +45,7 @@ class main extends Component {
       console.log(err)
     }
   }
-
+  //리스트 받아오기
   async fetchList() {
     try {
       const res = await API.get(apiName, path)
@@ -55,6 +55,7 @@ class main extends Component {
     }
   }
 
+  //페이지 로드후 새로 리스트 받아오도록
   componentDidMount() {
     this.fetchList()
   }

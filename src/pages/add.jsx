@@ -15,17 +15,19 @@ class add extends Component {
     filter: '',
     createDate:''
   }
-
+  //변경되는 데이터 업데이트
   handleChange = e => {
     const { value, name } = e.target
     this.setState({ [name]: value })
   }
 
+  //submit시 처리
   handleSubmit = async e => {
     e.preventDefault()
+    //createDate 값 formating
     var createDate = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
 
-
+    //body 설정
     const body = {
       id: Date.now().toString(),
       upperId: '0',
@@ -34,11 +36,13 @@ class add extends Component {
       createDate: createDate
     }
     try {
+      //API 호출
       const res = await API.post(apiName, path, { body })
       console.log(res)
     } catch (err) {
       console.log(err)
     }
+    //메인 페이지로 이동
     window.location.href = "/main";
   }
   componentDidMount() {

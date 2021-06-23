@@ -15,17 +15,21 @@ class addSub extends Component {
     filter: '',
     upperId: ''
   }
-
+  //변경되는 데이터 업데이트
   handleChange = e => {
     const { value, name } = e.target
     this.setState({ [name]: value })
   }
 
+  //submit시 처리
   handleSubmit = async e => {
     e.preventDefault()
+    //createDate 값 formating
     var createDate = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
 
+    //body 설정
     const body = {
+      //upperId에 상위 collection의 아이디 설정
       upperId: this.state.id,
       id: Date.now().toString(),
       name: this.state.name,
@@ -34,12 +38,13 @@ class addSub extends Component {
     }
 
     try {
+      //API 호출
       const res = await API.post(apiName, path, { body })
       console.log(res)
     } catch (err) {
       console.log(err)
     }
-
+    //메인 페이지로 이동
     window.location.href = "/main";
 
   }
@@ -76,7 +81,7 @@ class addSub extends Component {
   render() {
     const {
       handleChange,
-      handleSubmit,
+      handleSubmit
     } = this
     const { name, filter } = this.state
 

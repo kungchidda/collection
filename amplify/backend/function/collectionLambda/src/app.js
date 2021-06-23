@@ -60,27 +60,8 @@ const convertUrlType = (param, type) => {
  ********************************/
 
 app.get(path, function (req, res) {
-  // app.get(path + hashKeyPath, function(req, res) {
-  // var condition = {}
-  // condition[partitionKeyName] = {
-  //   ComparisonOperator: 'EQ'
-  // }
+  const start = Date.now();
 
-  // if (userIdPresent && req.apiGateway) {
-  //   condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
-  // } else {
-  //   try {
-  //     condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
-  //   } catch(err) {
-  //     res.statusCode = 500;
-  //     res.json({error: 'Wrong column type ' + err});
-  //   }
-  // }
-
-  // let queryParams = {
-  //   TableName: tableName,
-  //   KeyConditions: condition
-  // }
   var upperId = null
   let queryParams = null
   if (req.query.upperId) {
@@ -107,12 +88,14 @@ app.get(path, function (req, res) {
 
   }
 
-  // dynamodb.query(queryParams, (err, data) => {
+
   dynamodb.scan(queryParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: 'Could not load items: ' + err });
     } else {
+      const end = Date.now();
+      //data.Item.time = end - start
       res.json(data.Items);
     }
   });
@@ -151,16 +134,19 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function (req, res) {
   }
 
   dynamodb.get(getItemParams, (err, data) => {
-    const end = Date.now();
-    data.Item.time = end - start
-    
     if (err) {
       res.statusCode = 500;
       res.json({ error: 'Could not load items: ' + err.message });
     } else {
       if (data.Item) {
+        const end = Date.now();
+        //소요시간 데이터 추가
+        data.Item.time = end - start
         res.json(data.Item);
       } else {
+        const end = Date.now();
+        //소요시간 데이터 추가
+        data.time = end - start
         res.json(data);
       }
     }
@@ -173,7 +159,7 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function (req, res) {
 *************************************/
 
 app.put(path, function (req, res) {
-
+  const start = Date.now();
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
@@ -182,12 +168,15 @@ app.put(path, function (req, res) {
     TableName: tableName,
     Item: req.body
   }
+
   dynamodb.put(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ success: 'put call succeed!', url: req.url, data: data })
+      const end = Date.now();
+      const time = end - start
+      res.json({ success: 'put call succeed!', url: req.url, data: data, time: time })
     }
   });
 });
@@ -197,6 +186,7 @@ app.put(path, function (req, res) {
 *************************************/
 
 app.post(path, function (req, res) {
+  const start = Date.now();
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -206,13 +196,15 @@ app.post(path, function (req, res) {
     TableName: tableName,
     Item: req.body
   }
-  console.log("홍성준 req.body =\n",req.body)
   dynamodb.put(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ success: 'post call succeed!', url: req.url, data: data })
+      const end = Date.now();
+      //소요시간 데이터 추가
+      const time = end - start
+      res.json({ success: 'post call succeed!', url: req.url, data: data, time: time })
     }
   });
 });
@@ -222,6 +214,7 @@ app.post(path, function (req, res) {
 ***************************************/
 
 app.delete(path + '/object' + hashKeyPath + sortKeyPath, function (req, res) {
+  const start = Date.now();
   var params = {};
   if (userIdPresent && req.apiGateway) {
     params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -252,7 +245,10 @@ app.delete(path + '/object' + hashKeyPath + sortKeyPath, function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url });
     } else {
-      res.json({ url: req.url, data: data });
+      const end = Date.now();
+      //소요시간 데이터 추가
+      const time = end - start
+      res.json({ url: req.url, data: data, time: time });
     }
   });
 });
