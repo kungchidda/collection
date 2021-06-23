@@ -4,7 +4,7 @@ import awsConfig from '../aws-exports'
 import '../App.css';
 // import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Button } from '@material-ui/core';
+// import { Button } from '@material-ui/core';
 
 Amplify.configure(awsConfig)
 
@@ -85,16 +85,16 @@ class main extends Component {
       <div className="App">
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
 
-        <Button variant="contained" color="default"><Link to={'/add'}>Add Collection</Link></Button>
+        <button><Link to={'/add'}>Add Collection</Link></button>
         <hr />
         <h3>Menu Collections</h3>
         <ul style={{ display: showDetail ? 'none' : 'block' }}>
           {list.map(item => (
             <li key={item.id}>
               {item.title}
-              <Button variant="contained" color="primary" ><Link to={`/addSub/${item.id}`}>Add</Link> </Button>
-              <Button variant="contained" color="secondary" ><Link to={`/edit/${item.id}`}>Edit</Link> </Button>
-              <Button variant="contained" color="default" onClick={() => handleDelete(item.id)}>Delete</Button>
+              <button><Link to={`/addSub/${item.id}`}>Add</Link> </button>
+              <button><Link to={`/edit/${item.id}`}>Edit</Link> </button>
+              <button onClick={() => handleDelete(item.id)}>Delete</button>
             </li>
           ))}
         </ul>
