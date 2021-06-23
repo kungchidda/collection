@@ -87,16 +87,22 @@ app.get(path, function (req, res) {
     upperId = req.query.upperId
     queryParams = {
       TableName: tableName,
-      ProjectionExpression: 'id, title, upperId',
+      ProjectionExpression: 'id, #nm, upperId, createDate',
       FilterExpression: "upperId = :upperId",
+      ExpressionAttributeNames: {
+        "#nm": "name"
+      },
       ExpressionAttributeValues: {
-        ":upperId": upperId
+        ":upperId": upperId,
       }
     }
   } else {
     queryParams = {
       TableName: tableName,
-      ProjectionExpression: 'id, title, upperId'
+      ProjectionExpression: 'id, #nm, upperId, createDate',
+      ExpressionAttributeNames: {
+        "#nm": "name"
+      }
     }
 
   }
@@ -147,7 +153,7 @@ app.get(path + '/object' + hashKeyPath + sortKeyPath, function (req, res) {
   dynamodb.get(getItemParams, (err, data) => {
     const end = Date.now();
     data.Item.time = end - start
-    console.log("홍성준 response data = \n", data);
+    
     if (err) {
       res.statusCode = 500;
       res.json({ error: 'Could not load items: ' + err.message });
@@ -200,6 +206,7 @@ app.post(path, function (req, res) {
     TableName: tableName,
     Item: req.body
   }
+  console.log("홍성준 req.body =\n",req.body)
   dynamodb.put(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
