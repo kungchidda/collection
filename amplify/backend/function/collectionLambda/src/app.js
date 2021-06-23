@@ -87,7 +87,7 @@ app.get(path, function (req, res) {
     upperId = req.query.upperId
     queryParams = {
       TableName: tableName,
-      ProjectionExpression: 'id, title, upperId, filter',
+      ProjectionExpression: 'id, title, upperId',
       FilterExpression: "upperId = :upperId",
       ExpressionAttributeValues: {
         ":upperId": upperId

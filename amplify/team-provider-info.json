@@ -15,7 +15,7 @@
       "function": {
         "collectionLambda": {
           "deploymentBucketName": "amplify-collection-dev-33717-deployment",
-          "s3Key": "amplify-builds/collectionLambda-47786d612f6f6c4e5355-build.zip"
+          "s3Key": "amplify-builds/collectionLambda-636141686442376e6744-build.zip"
         }
       }
     }
